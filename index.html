@@ -14,7 +14,6 @@
 
     body {
       margin: 0;
-      padding: 0;
       background: #061b36;
       color: #f5dfab;
       font-family: Georgia, serif;
@@ -34,48 +33,112 @@
     }
 
     .musica {
-      padding: 25px 15px 45px;
+      padding: 28px 15px 45px;
+    }
+
+    .musica p {
+      font-size: 18px;
+      margin-bottom: 20px;
     }
 
     .boton {
       display: inline-block;
-      padding: 16px 25px;
+      padding: 16px 28px;
       border: 1px solid #d9b76c;
       border-radius: 35px;
       background: #102b4b;
       color: #f5dfab;
-      text-decoration: none;
+      font-family: Georgia, serif;
       font-size: 17px;
+      cursor: pointer;
     }
 
-    .boton:hover {
-      background: #183d66;
+    .boton:active {
+      background: #23476b;
+    }
+
+    .credito {
+      margin-top: 25px;
+      font-size: 11px !important;
+      opacity: 0.65;
     }
   </style>
 </head>
 
 <body>
+
   <main class="contenido">
 
+    <!-- Nuestra felicitación navideña -->
     <img
       class="imagen"
       src="./navidad-a131ree.png"
       alt="Felicitación navideña Ferval A-131REE"
     >
 
+    <!-- Música navideña -->
     <section class="musica">
+
       <p>🎄 Una sorpresa musical para ti 🎄</p>
 
-      <a
+      <button
         class="boton"
-        href="https://www.youtube.com/results?search_query=Carol+of+the+Bells+instrumental"
-        target="_blank"
-        rel="noopener noreferrer"
+        id="botonMusica"
+        type="button"
       >
-        🎵 ¡Que suene la Navidad!
-      </a>
+        🎵 Reproducir música
+      </button>
+
+      <audio
+        id="audioNavidad"
+        preload="none"
+        loop
+      >
+        <source
+          src="./navidad-mp3.ogg"
+          type="audio/ogg"
+        >
+      </audio>
+
+      <p class="credito">
+        Música: Jason Shaw / Audionautix
+      </p>
+
     </section>
 
   </main>
+
+  <script>
+    const audio = document.getElementById("audioNavidad");
+    const boton = document.getElementById("botonMusica");
+
+    boton.addEventListener("click", async function() {
+
+      if (audio.paused) {
+        try {
+          await audio.play();
+          boton.textContent = "⏸️ Pausar música";
+        } catch (error) {
+          boton.textContent = "No se pudo reproducir";
+          alert(
+            "Tu navegador no pudo reproducir el audio."
+          );
+        }
+      } else {
+        audio.pause();
+        boton.textContent = "🎵 Reproducir música";
+      }
+
+    });
+
+    audio.addEventListener("pause", function() {
+      boton.textContent = "🎵 Reproducir música";
+    });
+
+    audio.addEventListener("play", function() {
+      boton.textContent = "⏸️ Pausar música";
+    });
+  </script>
+
 </body>
 </html>
